@@ -1,6 +1,7 @@
 <?php
 require 'vendor/autoload.php';
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Dotenv\Dotenv;
 
 // Carica le variabili d'ambiente dal file .envs 
@@ -8,7 +9,7 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $key = $_ENV['SECRET_KEY']; // Recupera la chiave segreta dalla variabile d'ambiente
-file_put_contents(__DIR__ . '/debug.log', "SECRET_KEY: $key\n", FILE_APPEND);
+print_r($key);
 
 // Funzione fittizia per la verifica delle credenziali
 function checkCredentials($username, $password) {
