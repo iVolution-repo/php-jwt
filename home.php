@@ -34,6 +34,7 @@
             $dotenv->load();
 
             $key = $_ENV['SECRET_KEY']; // Recupera la chiave segreta dalla variabile d'ambiente
+            $url = $_ENV['IFRAME_URL']; // Recupera la chiave segreta dalla variabile d'ambiente
 
             if (isset($_GET['token'])) {
                 $token = $_GET['token'];
@@ -41,15 +42,14 @@
                 try {
                     // Decodifica il token JWT senza passare $headers per riferimento
                     $decoded = JWT::decode($token, new Key($key, 'HS256'));
-                    print_r($decoded);
                     $decoded_array = (array) $decoded;
-
                     echo '<h1>Benvenuto, ' . htmlspecialchars($decoded_array['data']->username) . '!</h1>';
                     echo '<p>Il token JWT è valido.</p>';
+                    echo '<p>Token:' . $token . '</p>';
                     echo '<a href="javascript:void(0);" onclick="showIframe();">Clicca qui per aprire un iframe</a>';
-                    echo '<div id="iframeContainer">
-                            <iframe src="https://www.example.com"></iframe>
-                          </div>';
+                    echo '<div id="iframeContainer">';
+                    echo '<iframe src="'.$url.'?jwt='.$token.'"></iframe>';
+                    echo '</div>';
                 } catch (Exception $e) {
                     echo '<h1>Attenzione!</h1>';
                     echo '<p>Token JWT non valido: ' . $e->getMessage() . '</p>';
